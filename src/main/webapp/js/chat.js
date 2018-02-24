@@ -11,12 +11,14 @@ var nomuser = '';
 
 function enviarMsj(){    
     chat.innerHTML=chat.innerHTML+"<br/>Yo: "+msj.value;
-    chat.value = "";
     var json={
         "msj":msj.value,
         "name":nomuser,
         "accion":"chat"
     };
+    /*Limpia la caja de texto, si se hace en javascript estandar no funciona en Chrome,
+     *por eso se usa jquery*/
+    $('#msjChat').val('');
     sendData(JSON.stringify(json));
 }
 
