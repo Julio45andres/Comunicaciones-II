@@ -10,7 +10,8 @@ var username=document.getElementById("username");
 var nomuser = '';
 
 function enviarMsj(){    
-    chat.innerHTML=chat.innerHTML+"<br/>Yo:"+msj.value;
+    chat.innerHTML=chat.innerHTML+"<br/>Yo: "+msj.value;
+    chat.value = "";
     var json={
         "msj":msj.value,
         "name":nomuser,

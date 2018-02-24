@@ -36,7 +36,7 @@ websocket.onmessage=function(evt){
             borrarDibujoOtroCliente(json);
         }
         else if(json.accion==="chat"){
-            chat.innerHTML=chat.innerHTML+"<br/>"+json.name+":"+json.msj;            
+            chat.innerHTML=chat.innerHTML+"<br/>"+json.name+": "+json.msj;            
         }
         
     }
