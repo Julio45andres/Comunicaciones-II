@@ -20,8 +20,8 @@ var msj=document.getElementById("msj");
  * @param {type} evt informacion que llega del server
  * @returns {undefined}
  */
-websocket.onmessage=function(evt){
-    var json=JSON.parse(evt.data);
+websocket.onmessage=function(evt){    
+    var json=JSON.parse(evt.data);   
     if(json.iniDibujarOtroCliente!==undefined && json.iniDibujarOtroCliente===true){
         iniDibujarOtroCliente(json);
     }
@@ -38,7 +38,9 @@ websocket.onmessage=function(evt){
         else if(json.accion==="chat"){
             chat.innerHTML=chat.innerHTML+"<br/>"+json.name+": "+json.msj;            
         }
-        
+        else if(json.accion==="newUser"){
+            listarUsuarios(json.listaUsers);
+        }
     }
     
 };
@@ -67,5 +69,5 @@ websocket.onerror=function(evt){
  * @returns {undefined}
  */
 function sendData(json){
-    websocket.send(json);
+    websocket.send(JSON.stringify(json));
 }

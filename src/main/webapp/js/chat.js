@@ -9,6 +9,9 @@ var username=document.getElementById("username");
 
 var nomuser = '';
 
+//Lista de los usuarios conectados
+var listaUser=document.getElementById("listaUser");
+
 function enviarMsj(){    
     chat.innerHTML=chat.innerHTML+"<br/>Yo: "+msj.value;
     var json={
@@ -19,7 +22,7 @@ function enviarMsj(){
     /*Limpia la caja de texto, si se hace en javascript estandar no funciona en Chrome,
      *por eso se usa jquery*/
     $('#msjChat').val('');
-    sendData(JSON.stringify(json));
+    sendData(json);
 }
 
 //Esta función muestra el pop-up para ingresar el nombre de usuario, cuando
@@ -31,3 +34,31 @@ $(document).ready(function () {
 $('#popup').on('hidden.bs.modal', function(){
     nomuser = $('#username').val();
 });
+
+/**
+ * Funcion que registra los usuarios
+ * @returns {undefined}
+ */
+function registraJugador(){
+    var json={
+        "name":username.value,
+        "accion":"newUser"
+    };
+    sendData(json);
+}
+
+/**
+ * Funcion que lista los nuevos usuarios
+ * @param {type} arrayUser
+ * @returns {undefined}
+ */
+function listarUsuarios(arrayUser){
+    var item;
+    //Se limpia la lista
+    listaUser.innerHTML="";
+    for(var i=0;i<arrayUser.length;i++){
+        item=document.createElement("li");
+        item.innerHTML=arrayUser[i];        
+        listaUser.appendChild(item);
+    }
+}

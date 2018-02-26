@@ -8,65 +8,68 @@
         <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">              
     </head>
     <body>
- 
-    <div class="row">
-        <div class="col-md-5">
-        <canvas id="tablero" width="600" height="400">
+    
+        <div class="row">            
+            <div class="col-md-5">
+                <canvas id="tablero" width="600" height="400">
 
-        </canvas>
-        <br/>
-        <table class="panel">
-            <caption><span id="msj"></span></caption>
-            <tbody>
-                <tr>
-                <td>
-                    <input type="color" onchange="cambiarColor(this.value)" /><br/>
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-                            <div class="linea2"/></div>
-                            <div class="linea4"/></div>
-                            <div class="linea6"/></div>
-                            <div class="linea10"/></div>
+                </canvas>
+            <br/>
+            <table class="panel">
+                <caption><span id="msj"></span></caption>
+                <tbody>
+                    <tr>
+                    <td>
+                        <input type="color" onchange="cambiarColor(this.value)" /><br/>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
+                                <div class="linea2"/></div>
+                                <div class="linea4"/></div>
+                                <div class="linea6"/></div>
+                                <div class="linea10"/></div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li onclick="cambiarTam(2)"><a href="#"><div class="linea2"/></div></a></li>
+                                <li onclick="cambiarTam(4)"><a href="#"><div class="linea4"/></div></a></li>
+                                <li onclick="cambiarTam(6)"><a href="#"><div class="linea6"/></div></a></li>
+                                <li onclick="cambiarTam(10)"><a href="#"><div class="linea10"/></div></a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <button  class="btn btn-default" onclick="selectLapiz()" title="Lapiz">
+                            <img src="img/lapiz.png" alt="Lapiz" class="tamIconos" />
+                        </button>
+                    </td>
+                    <td>
+                        <button  class="btn btn-default" onclick="selectBorrador()" title="Borrar">
+                            <img src="img/borrador.png" alt="Borrar" class="tamIconos"/>
+                        </button>
+
+                    </td>
+                    <td>
+                        <a id="save" href="#" download="canvas.png" onclick="saveImg()" title="Guardar">
+                            <span class="glyphicon glyphicon-save btn-lg"></span>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li onclick="cambiarTam(2)"><a href="#"><div class="linea2"/></div></a></li>
-                            <li onclick="cambiarTam(4)"><a href="#"><div class="linea4"/></div></a></li>
-                            <li onclick="cambiarTam(6)"><a href="#"><div class="linea6"/></div></a></li>
-                            <li onclick="cambiarTam(10)"><a href="#"><div class="linea10"/></div></a></li>
-                        </ul>
-                    </div>
-                </td>
-                <td>
-                    <button  class="btn btn-default" onclick="selectLapiz()" title="Lapiz">
-                        <img src="img/lapiz.png" alt="Lapiz" class="tamIconos" />
-                    </button>
-                </td>
-                <td>
-                    <button  class="btn btn-default" onclick="selectBorrador()" title="Borrar">
-                        <img src="img/borrador.png" alt="Borrar" class="tamIconos"/>
-                    </button>
-
-                </td>
-                <td>
-                    <a id="save" href="#" download="canvas.png" onclick="saveImg()" title="Guardar">
-                        <span class="glyphicon glyphicon-save btn-lg"></span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-        <div class="col-md-offset-2 col-md-4">
-           <div id="chat">
-
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             </div>
-            <input type="text" id="msjChat" class="" placeholder="Mensaje"/>
-            <button onclick="enviarMsj()">Enviar</button> 
+            <div class="col-md-offset-2 col-md-4">
+               <div id="chat">
+
+                </div>
+                <input type="text" id="msjChat" class="" placeholder="Mensaje"/>
+                <button onclick="enviarMsj()">Enviar</button> 
+            </div>
+            <div class="col-md-1">
+                <ul id="listaUser">
+                </ul>
+            </div>
         </div>
-    </div>
-        
     <!--Pop-up modal que se muestra al cargar la página-->
     <!--Los atributos data-backdrop y data-keyboard es para evitar que cada jugador tenga que ingresar
     un nombre de usuario-->
@@ -83,7 +86,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="text-align: center">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="jugar">Jugar!</button>
+                    <button type="button" onclick="registraJugador()" class="btn btn-default" data-dismiss="modal" id="jugar">Jugar!</button>
                 </div>
             </div>
         </div>
@@ -91,6 +94,7 @@
 
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular/angular.min.js"></script>
     <script src="js/ctrTablero.js"></script>
     <script src="js/clienteWebSocket.js"></script>
     <script src="js/chat.js"></script>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-//Referencia al elemto canvas creado en el html
+//Referencia al elemeto canvas creado en el html
 var tablero=document.getElementById("tablero");
 
 //Referencia al contexto 2d del canvas para dibujar.
@@ -53,10 +53,10 @@ tablero.onmousedown=function(event){
     ctx.beginPath();
     ctx.moveTo(x,y);
     //Notificar inicio de dibujo
-    sendData(JSON.stringify({
+    sendData({
         "iniDibujarOtroCliente":true,
         "coords":{"x":x,"y":y}
-    }));
+    });
 };
 
 /**
@@ -67,9 +67,9 @@ tablero.onmousedown=function(event){
 tablero.onmouseup=function(event){
     this.swithDibujar=false;
     //Notificar fin de dibujo
-    sendData(JSON.stringify({
+    sendData({
         "finDibujarOtroCliente":true
-    }));
+    });
     //Finalizar Dibujo
     ctx.closePath();
 };
@@ -85,7 +85,7 @@ function dibujar(x,y){
     ctx.lineWidth=this.tam;
     ctx.lineTo(x,y);
     ctx.stroke(); // Lo transforma en dibujo a línea.
-    sendData(JSON.stringify({
+    sendData({
         "accion":"dibujar",
         "color":this.color,
         "tam":this.tam,
@@ -93,7 +93,7 @@ function dibujar(x,y){
             "x":x,
             "y":y
         }
-    }));
+    });
 }
 
 //inicio de dibujo otro usuario
@@ -136,7 +136,7 @@ function borrarDibujoOtroCliente(json){
  */
 function borrarDibujo(x,y){
     ctx.clearRect(x,y,this.tam,this.tam);
-    sendData(JSON.stringify({"accion":"borrar","tam":this.tam,"coords":{"x":x,"y":y}}));
+    sendData({"accion":"borrar","tam":this.tam,"coords":{"x":x,"y":y}});
 }
 
 /**
