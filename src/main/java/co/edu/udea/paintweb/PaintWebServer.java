@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.websocket.EncodeException;
@@ -32,12 +34,23 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint(value = "/paintweb", encoders = {DatosEncoder.class}, decoders = {DatosDecoder.class})
 public class PaintWebServer {
-
+  
     /**
      * Lista de usuarios conectados
      */
        
     private static final Set<Jugador> LISTA_JUGADORES=Collections.synchronizedSet(new HashSet<Jugador>());
+    
+    private static final Thread HILO_CRONOMETRO = new Thread( new Cronometro(LISTA_JUGADORES),"Cronometro" );
+    
+    
+    public PaintWebServer() {
+        int segundos=0;
+        if(!HILO_CRONOMETRO.isAlive()){
+            HILO_CRONOMETRO.start();
+        }
+        System.out.println("Constructor : "+HILO_CRONOMETRO.isAlive());
+    }
     
     /**
      * Este metodo se encarga de recibir los datos y enviarselo a los demas

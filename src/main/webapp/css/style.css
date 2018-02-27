@@ -87,3 +87,6 @@ input[type=color]{
 #listaUser>li:hover{
     background: #ccc;
 }
+#temporizador{
+    font-size: 28px;
+}

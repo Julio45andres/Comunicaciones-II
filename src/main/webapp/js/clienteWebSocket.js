@@ -15,6 +15,8 @@ var websocket=new WebSocket(wsUri);
 //Referencia al elemento html que va mostrar los mensajes
 var msj=document.getElementById("msj");
 
+var temporizador=document.getElementById("temporizador");
+
 /**
  * Metodo que recibe los datos y ejecuta la accion que se indica en estos
  * @param {type} evt informacion que llega del server
@@ -41,6 +43,21 @@ websocket.onmessage=function(evt){
         else if(json.accion==="newUser"){
             listarUsuarios(json.listaUsers);
         }
+        else if(json.accion==="cronometro"){
+            temporizador.innerHTML=json.time;
+        }
+        else if(json.accion==="bloquerBlog"){
+            tablero.disabled=json.disabled;
+            console.log(json.disabled)
+            if(json.disabled==="false"){
+                tablero.style.display='none'
+            }
+            else{
+                tablero.style.display='block'
+            }           
+            
+        }
+        
     }
     
 };
