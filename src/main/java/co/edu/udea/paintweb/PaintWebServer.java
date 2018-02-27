@@ -25,56 +25,59 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**
- * Esta clase es la encargada de recibir la informacion de los usuarios y replicarla a los demass
+ * Esta clase es la encargada de recibir la informacion de los usuarios y
+ * replicarla a los demass
+ *
  * @author Cesar
  */
-
-@ServerEndpoint(value="/paintweb",encoders = {DatosEncoder.class},decoders = {DatosDecoder.class})
+@ServerEndpoint(value = "/paintweb", encoders = {DatosEncoder.class}, decoders = {DatosDecoder.class})
 public class PaintWebServer {
-    
+
     /**
      * Lista de usuarios conectados
      */
-    private static final Set<Session> CLIENTES=Collections.synchronizedSet(new HashSet<Session>());
-    private static final List<Jugador> LISTA_JUGADORES=new ArrayList<Jugador>();
+       
+    private static final Set<Jugador> LISTA_JUGADORES=Collections.synchronizedSet(new HashSet<Jugador>());
     
     /**
-     * Este metodo se encarga de recibir los datos y enviarselo a los demas usuarios conectados
+     * Este metodo se encarga de recibir los datos y enviarselo a los demas
+     * usuarios conectados
+     *
      * @param datos recibidos por el ususarios
      * @param session del usuario que envia los datos
-     * @throws IOException 
-     * @throws EncodeException 
+     * @throws IOException
+     * @throws EncodeException
      */
     @OnMessage
-    public void broadcastFigure(Datos datos,Session session) throws IOException, EncodeException {
-        System.out.println("Datos: "+datos);
-        
+    public void broadcastFigure(Datos datos, Session session) throws IOException, EncodeException {
+        System.out.println("Datos: " + datos);
+
         //Se condiciona por la accion a ejecutar
-        if(datos.getJson().getString("accion").equals("newUser")){
-            agregarNombreJugador(session,datos.getJson().getString("name"));            
-            this.listarUsuarios();
-        }
-        else{
-            System.out.println("NO ENTRO");
-            for(Session usuarios: CLIENTES){
-                if(!usuarios.equals(session)){
-                    usuarios.getBasicRemote().sendObject(datos);
-                }
+        try{
+            if (datos.getJson().getString("accion").equals("newUser")) {
+                agregarNombreJugador(session, datos.getJson().getString("name"));
+                this.listarUsuarios();
+            }
+            else{
+                enviarInformacionConectados(session, datos);
             }
         }
-        
+        catch(Exception e){
+            System.out.println("ACCION : "+e.getMessage());
+            enviarInformacionConectados(session, datos);
+        }
+
     }
-    
+
     /**
      * Esta funcion agrega en nuevo usuario a la lista de usuarios conectados
+     *
      * @param cliente session del cliente que abre la conexion
      */
     @OnOpen
     public void onOpen(Session cliente) {
-        CLIENTES.add(cliente);
-        
         //Agrega un nuevo jugador a la lista y le seteo la session por el momento
-        Jugador j=new Jugador();
+        Jugador j = new Jugador();
         j.setSession(cliente);
         LISTA_JUGADORES.add(j);
     }
@@ -84,40 +87,72 @@ public class PaintWebServer {
     }
 
     /**
-     * Metodo encargado de eliminar el cliente de la lista de usuarios conectados
-     * @param cliente session del cliente que cierra la conexion
+     * Metodo encargado de eliminar el cliente de la lista de usuarios
+     * conectados
+     *
+     * @param cliente
+     * @throws IOException
+     * @throws EncodeException
      */
     @OnClose
     public void onClose(Session cliente) throws IOException, EncodeException {
-        CLIENTES.remove(cliente);
-        for(Jugador j: LISTA_JUGADORES){
-            if(j.getSession().equals(cliente)){
+        for (Jugador j : LISTA_JUGADORES) {
+            if (j.getSession().equals(cliente)) {
                 LISTA_JUGADORES.remove(j);
                 this.listarUsuarios();
                 break;
             }
         }
     }
-    
-    public void agregarNombreJugador(Session s,String nombre){
-        for(Jugador j: LISTA_JUGADORES){
-            if(j.getSession().equals(s)){
+
+    public void agregarNombreJugador(Session s, String nombre) {
+        for (Jugador j : LISTA_JUGADORES) {
+            if (j.getSession().equals(s)) {
                 j.setNombre("○ "+nombre);
                 break;
             }
         }
     }
-    
-    public void listarUsuarios() throws IOException, EncodeException{
-        String jsonUsuarios="{\"accion\":\"newUser\",\"listaUsers\":[";
-        for(Jugador j: LISTA_JUGADORES){
-            jsonUsuarios +="\""+j.getNombre()+"\",";
-        }
-        jsonUsuarios =jsonUsuarios.substring(0, jsonUsuarios.length()-1);
-        jsonUsuarios +="]}";
 
-        for(Session usuarios: CLIENTES){                
-            usuarios.getBasicRemote().sendObject(jsonUsuarios);                
+    public void listarUsuarios() throws IOException, EncodeException {
+        String jsonUsuarios = "{\"accion\":\"newUser\",\"listaUsers\":[";
+        for (Jugador j : LISTA_JUGADORES) {
+            jsonUsuarios += "\"" + j.getNombre() + "\",";
+        }
+        jsonUsuarios = jsonUsuarios.substring(0, jsonUsuarios.length() - 1);
+        jsonUsuarios += "]}";
+
+        this.enviarInformacionAll(jsonUsuarios);
+    }
+
+    /**
+     * Enviar informacion a todos los usuarios incluyendose el propio usuario
+     * que envia los datos
+     *
+     * @param o
+     * @throws IOException
+     * @throws EncodeException
+     */
+    public void enviarInformacionAll(Object o) throws IOException, EncodeException {
+        for (Jugador j : LISTA_JUGADORES) {
+            j.getSession().getBasicRemote().sendObject(o);
+        }
+    }
+
+    /**
+     * Enviar informacion a todos los usuarios exepto el usuario que enviar los
+     * datos
+     *
+     * @param s
+     * @param o
+     * @throws IOException
+     * @throws EncodeException
+     */
+    public void enviarInformacionConectados(Session s, Object o) throws IOException, EncodeException {
+        for (Jugador j : LISTA_JUGADORES) {
+            if (!j.getSession().equals(s)) {
+                j.getSession().getBasicRemote().sendObject(o);
+            }
         }
     }
 }
