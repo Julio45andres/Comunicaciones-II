@@ -42,13 +42,30 @@ $(document).ready(function () {
     $('#juego').hide();
 });
 
+$('#popup').on('show.bs.modal', function () {
+    $('#username').focus();
+}).modal('show');
+
 //Se usa para mostrar el nombre de un jugador a los demas usuarios en el chat.
 $('#popup').on('hidden.bs.modal', function(){
-    nomuser = $('#username').val();
-    $('body').css('background-color', 'white');
-    $('#juego').show();
+    empezarPartida();
 });
 
+username.addEventListener("keypress",function(){
+    var evento= event || window.event;
+    //Si es enter envia el mensaje
+    if(evento.charCode===13){
+        $('#popup').modal('toggle');
+        empezarPartida();
+    }
+});
+
+function empezarPartida(){
+    nomuser = $('#username').val();
+//    $('body').css('background-color', 'white');
+    registraJugador();
+    $('#juego').show();
+}
 /**
  * Funcion que registra los usuarios
  * @returns {undefined}
@@ -70,9 +87,12 @@ function listarUsuarios(arrayUser){
     var item;
     //Se limpia la lista
     listaUser.innerHTML="";
+    
     for(var i=0;i<arrayUser.length;i++){
-        item=document.createElement("li");
-        item.innerHTML=arrayUser[i];        
-        listaUser.appendChild(item);
+        if(arrayUser[i] !== "null"){
+            item=document.createElement("li");
+            item.innerHTML=arrayUser[i];        
+            listaUser.appendChild(item);
+        }
     }
 }

@@ -87,19 +87,21 @@ input[type=color]{
 }
 
 #listaUser{
+    list-style-image: url("https://lh5.googleusercontent.com/LiHwgar4E5lLH8-MQF_-nLbpG0brWh8y5l57mR_Z69wxME3Kkq2IRyLFZH6dDiZeUHbtVQu9Q_As8c6O48Wb=w1920-h948");
     border: 1px solid #ccc;
     box-shadow: 2px 2px 10px #333;
     font-size: 26px;
-    list-style: none;
     margin: 0;
     padding: 0;
     background-color: white;
+    
 }
 #listaUser>li:hover{
     border: 1px solid #ccc;
     box-shadow: 2px 2px 10px #333;
     background: #ccc;
 }
+
 #temporizador{
     font-size: 28px;
 }
