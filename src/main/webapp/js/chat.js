@@ -29,10 +29,15 @@ function enviarMsj(){
 //se carga la página.
 $(document).ready(function () {
     $('#popup').modal('show');
+    $('body').css('background-color', 'green');
+    $('#juego').hide();
 });
 
+//Se usa para mostrar el nombre de un jugador a los demas usuarios en el chat.
 $('#popup').on('hidden.bs.modal', function(){
     nomuser = $('#username').val();
+    $('body').css('background-color', 'white');
+    $('#juego').show();
 });
 
 /**

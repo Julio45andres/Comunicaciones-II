@@ -102,7 +102,7 @@ public class PaintWebServer {
     public void agregarNombreJugador(Session s,String nombre){
         for(Jugador j: LISTA_JUGADORES){
             if(j.getSession().equals(s)){
-                j.setNombre(nombre);
+                j.setNombre("○ "+nombre);
                 break;
             }
         }
