@@ -12,8 +12,17 @@ var nomuser = '';
 //Lista de los usuarios conectados
 var listaUser=document.getElementById("listaUser");
 
+msj.addEventListener("keypress",function(){
+    var evento= event || window.event;
+    //Si es enter envia el mensaje
+    if(evento.charCode===13){
+        enviarMsj();
+    }
+    
+});
 function enviarMsj(){    
     chat.innerHTML=chat.innerHTML+"<br/>Yo: "+msj.value;
+    chat.scrollTop=chat.scrollHeight;
     var json={
         "msj":msj.value,
         "name":nomuser,

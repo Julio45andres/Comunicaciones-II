@@ -36,10 +36,9 @@ public class PaintWebServer {
     /**
      * Lista de usuarios conectados
      */
-    //private static final Set<Session> CLIENTES=Collections.synchronizedSet(new HashSet<Session>());
-    private static final List<Jugador> LISTA_JUGADORES = new ArrayList<Jugador>();
-    //private static final Set<Jugador> LISTA_JUGADORES=Collections.synchronizedSet(new HashSet<Jugador>());
-
+       
+    private static final Set<Jugador> LISTA_JUGADORES=Collections.synchronizedSet(new HashSet<Jugador>());
+    
     /**
      * Este metodo se encarga de recibir los datos y enviarselo a los demas
      * usuarios conectados
