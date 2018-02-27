@@ -10,8 +10,11 @@ and open the template in the editor.
 #juego{
     margin: 0;
     padding: 0;
-    /*background-image: url();*/
-/*    background: #D8D8D8;*/
+    opacity: 0;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 2s;
 }
 
 .modal {
@@ -104,4 +107,21 @@ input[type=color]{
 
 #temporizador{
     font-size: 28px;
+}
+
+.index{
+    background-image: url('https://www.sketchuptextureclub.com/public/texture_f/geometric-wallpapers-textures-seamless-cover.jpg');
+}
+
+.game{
+    background-image: url('https://lh3.googleusercontent.com/oSKqjFv77lW05dTakXhyWM1Jo8ZisVUDWRndipMp1lYujvxLHwTyIL01M0omCz-o7vWVHkzWEBvP4lmB_wR4=w1920-h948');
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

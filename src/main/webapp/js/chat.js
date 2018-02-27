@@ -37,9 +37,8 @@ function enviarMsj(){
 //Esta función muestra el pop-up para ingresar el nombre de usuario, cuando
 //se carga la página.
 $(document).ready(function () {
+ //   $('#juego').hide();
     $('#popup').modal('show');
-    $('body').css('background-color', 'green');
-    $('#juego').hide();
 });
 
 $('#popup').on('show.bs.modal', function () {
@@ -48,6 +47,8 @@ $('#popup').on('show.bs.modal', function () {
 
 //Se usa para mostrar el nombre de un jugador a los demas usuarios en el chat.
 $('#popup').on('hidden.bs.modal', function(){
+    $('body').removeClass("index");
+    $('body').addClass("game");
     empezarPartida();
 });
 
@@ -62,9 +63,9 @@ username.addEventListener("keypress",function(){
 
 function empezarPartida(){
     nomuser = $('#username').val();
-//    $('body').css('background-color', 'white');
     registraJugador();
-    $('#juego').show();
+    $('#juego').removeClass('hidden');
+    $('#juego').css('opacity', '1');
 }
 /**
  * Funcion que registra los usuarios
